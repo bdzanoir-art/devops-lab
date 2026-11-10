@@ -31,17 +31,19 @@ jobs:
       - name: run the checklist
         run: bash tests/check_site.sh
 
-  deploy:
+   deploy:
+    needs: test
     runs-on: ubuntu-latest
-    # deploys to the world
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page (http://steps.deployment.outputs.page/)_url }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
         with:
-          # creates the Pages site (build_type=workflow) on first run, so no
-          # manual Settings -> Pages -> Source toggle is needed — works in forks too
           enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
       - uses: actions/deploy-pages@v4
+        id: deployment
